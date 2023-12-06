@@ -1,6 +1,52 @@
+## Example ussage
+
 # t2d-tf-module-dataform
 
-Terraform Module - Google Dataform
+Terraform module to set up a Google Dataform repository within Google Cloud Platform (GCP). By [Turntwo](https://turntwo.com)
 
-Author: Krisjan Oldekamp
-Company: Turntwo
+## Features
+
+- Creates a dedicated Service Account
+- Creates a Dataform repository
+- Connects an (external) Git repo
+- Adhering to a naming convention
+
+## Example
+
+```terraform
+module "dataform" {
+    count                     = contains(var.modules_list, "dataform") ? 1 : 0
+    source                    = "git::https://github.com/turntwodigital/t2d-tf-module-dataform.git?ref=v0.1.0"
+    gcp_project               = var.gcp_project
+    resource_prefix           = var.resource_prefix
+    dataform_git_repo         = var.dataform_git_repo
+    dataform_git_repo_secret  = var.dataform_git_repo_secret
+
+    depends_on = [
+        google_project_service.apis
+    ]
+}
+```
+
+## Authors
+
+- Krisjan Oldekamp (Turntwo)
+
+## Version History
+
+* 0.2
+    * -
+    * -
+* 0.1
+    * Initial Release
+
+## License
+
+- To-do
+
+## Acknowledgments
+
+Inspiration, code snippets, etc.
+
+* [GTM Gear / Artem Korneev](https://gtm-gear.com/posts/ga4-terraform/)\
+* [Moritz Bauer](https://github.com/Liscor/terraform_dataform_ga4_pipeline)
