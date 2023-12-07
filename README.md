@@ -11,6 +11,10 @@ Terraform module to set up a Google Dataform repository within Google Cloud Plat
 - Connects an (external) Git repo
 - Adhering to a naming convention
 
+## Prerequisities
+
+- Github: Create a fine-grained (personal) access token in Github and link it to the desired repository. Make sure it has Read/Write access to the repository content (Contents)
+
 ## Example
 
 ```terraform
