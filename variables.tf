@@ -4,7 +4,7 @@ variable "resource_prefix" {
     default     = ""
 }
 
-variable "gcp_project" {
+variable "project_id" {
     description = "GCP Project ID (non-numerical)"
     type        = string
     default     = ""

@@ -17,7 +17,7 @@ Terraform module to set up a Google Dataform repository within Google Cloud Plat
 module "dataform" {
     count                     = contains(var.modules_list, "dataform") ? 1 : 0
     source                    = "git::https://github.com/turntwodigital/t2d-tf-module-dataform.git?ref=v0.1.0"
-    gcp_project               = var.gcp_project
+    project_id                = var.project_id
     resource_prefix           = var.resource_prefix
     dataform_git_repo         = var.dataform_git_repo
     dataform_git_repo_secret  = var.dataform_git_repo_secret

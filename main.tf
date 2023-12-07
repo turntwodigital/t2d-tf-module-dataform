@@ -1,6 +1,6 @@
 # Set up service account for Dataform
 resource "google_service_account" "dataform" {
-    project      = var.gcp_project
+    project      = var.project_id
     account_id   = "${var.resource_prefix}-gsa-dataform"
     display_name = "Service Account for Dataform (executing Dataform Workflows)"
 }
@@ -9,9 +9,10 @@ resource "google_service_account" "dataform" {
 resource "google_project_iam_member" "dataform" {
     for_each = toset([
         "roles/bigquery.dataEditor", 
-        "roles/bigquery.jobUser"
+        "roles/bigquery.jobUser",
+        "roles/secretmanager.secretAccessor"
     ])
-    project = var.gcp_project
+    project = var.project_id
     role    = each.value
     member  = "serviceAccount:${google_service_account.dataform.email}"
     depends_on = [
@@ -35,6 +36,7 @@ resource "google_secret_manager_secret_version" "secret_version" {
     secret_data = var.dataform_git_repo_secret
 }
 
+# Should be granted to the default Dataform service account (currently doesn't work with custom SA)
 resource "google_secret_manager_secret_iam_member" "secret_access" {
     provider = google-beta
 
@@ -53,5 +55,9 @@ resource "google_dataform_repository" "datahub" {
         url = var.dataform_git_repo
         default_branch = "main"
         authentication_token_secret_version = google_secret_manager_secret_version.secret_version.id
+    }
+
+    workspace_compilation_overrides {
+        schema_suffix = "_dev"
     }
 }
