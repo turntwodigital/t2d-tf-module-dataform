@@ -1,3 +1,7 @@
+data "google_project" "project" {
+    project_id =  var.project_id
+}
+
 # Set up service account for Dataform
 resource "google_service_account" "dataform" {
     project      = var.project_id
@@ -9,8 +13,7 @@ resource "google_service_account" "dataform" {
 resource "google_project_iam_member" "dataform" {
     for_each = toset([
         "roles/bigquery.dataEditor", 
-        "roles/bigquery.jobUser",
-        "roles/secretmanager.secretAccessor"
+        "roles/bigquery.jobUser"
     ])
     project = var.project_id
     role    = each.value
@@ -42,7 +45,7 @@ resource "google_secret_manager_secret_iam_member" "secret_access" {
 
     secret_id = google_secret_manager_secret.secret.id
     role      = "roles/secretmanager.secretAccessor"
-    member    = "serviceAccount:${google_service_account.dataform.email}"
+    member    = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-dataform.iam.gserviceaccount.com"
 }
 
 # Create repository
