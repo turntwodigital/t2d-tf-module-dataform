@@ -25,6 +25,8 @@ module "dataform" {
     resource_prefix           = var.resource_prefix
     dataform_git_repo         = var.dataform_git_repo
     dataform_git_repo_secret  = var.dataform_git_repo_secret
+    dataform_create_release   = 1
+    dataform_suffix_prod      = "prod"
 
     depends_on = [
         google_project_service.apis
