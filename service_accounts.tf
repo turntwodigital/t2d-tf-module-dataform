@@ -9,7 +9,10 @@ resource "google_service_account" "dataform" {
 resource "google_project_iam_member" "dataform" {
     for_each = toset([
         "roles/bigquery.dataEditor", 
-        "roles/bigquery.jobUser"
+        "roles/bigquery.jobUser",
+        "roles/dataform.admin",
+        "roles/secretmanager.secretAccessor",
+        "roles/iam.serviceAccountUser"
     ])
     project = var.project_id
     role    = each.value
