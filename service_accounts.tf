@@ -21,3 +21,19 @@ resource "google_project_iam_member" "dataform" {
         google_service_account.dataform
     ]
 }
+
+# Set correct roles on default Dataform Service Account
+resource "google_project_iam_member" "dataform" {
+    for_each = toset([
+        "roles/bigquery.dataEditor", 
+        "roles/bigquery.jobUser",
+        "roles/dataform.admin",
+        "roles/iam.serviceAccountUser"
+    ])
+    project = var.project_id
+    role    = each.value
+    member  = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-dataform.iam.gserviceaccount.com"
+    depends_on = [
+        google_service_account.dataform
+    ]
+}
