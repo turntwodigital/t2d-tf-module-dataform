@@ -15,7 +15,7 @@ resource "google_dataform_repository" "datahub" {
     }
 
     workspace_compilation_overrides {
-        schema_suffix = "_dev"
+        schema_suffix = var.dataform_suffix_dev
     }
 }
 

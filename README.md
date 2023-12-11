@@ -26,6 +26,7 @@ module "dataform" {
     dataform_git_repo         = var.dataform_git_repo
     dataform_git_repo_secret  = var.dataform_git_repo_secret
     dataform_create_release   = 1
+    dataform_suffix_dev       = "dev"
     dataform_suffix_prod      = "prod"
 
     depends_on = [

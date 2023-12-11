@@ -32,6 +32,12 @@ variable "dataform_create_release" {
     default     = 1
 }
 
+variable "dataform_suffix_dev" {
+    description = "Dataform dataset suffix for production"
+    type        = string
+    default     = "dev"
+}
+
 variable "dataform_suffix_prod" {
     description = "Dataform dataset suffix for production"
     type        = string
