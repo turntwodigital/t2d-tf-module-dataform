@@ -35,6 +35,6 @@ resource "google_dataform_repository_release_config" "datahub" {
     time_zone     = "Europe/Amsterdam"
 
     code_compilation_config {
-        schema_suffix = ${var.dataform_suffix_prod}
+        schema_suffix = var.dataform_suffix_prod
     }
 }
