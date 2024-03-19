@@ -41,13 +41,11 @@ resource "google_service_account" "dataform_workflows" {
 
 # Set correct roles on the Eventarc / Workflows / Dataform trigger
 resource "google_project_iam_member" "dataform_workflows" {
-    count   = var.dataform_ga_create_trigger ? 1 : 0
-    
-    for_each = toset([
-        "roles/logging.logWriter", # needed?
+    for_each = var.dataform_ga_create_trigger ? toset([
+        "roles/logging.logWriter",
         "roles/workflows.invoker",
         "roles/dataform.serviceAgent",
-    ])
+    ]) : toset([])
     provider = google-beta
     project  = var.project_id
     role     = each.value
