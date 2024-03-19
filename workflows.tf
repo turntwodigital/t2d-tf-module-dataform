@@ -11,7 +11,7 @@ resource "google_workflows_workflow" "execute_dataform_ga4" {
         dataform_workspace_name = var.dataform_git_repo_main_branch
     })
     depends_on = [ 
-        google_project_service.workflows_api,
+        google_project_service.apis,
         google_service_account.dataform_workflows,
         google_dataform_repository.datahub
     ]
@@ -37,7 +37,7 @@ resource "google_eventarc_trigger" "ga4_export" {
     }
     service_account = google_service_account.dataform_workflows.email
     depends_on = [ 
-        google_project_service.eventarc_api, 
+        google_project_service.apis, 
         google_workflows_workflow.execute_dataform_ga4, 
         google_pubsub_topic.ga_exports,
         google_dataform_repository.datahub 

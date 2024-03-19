@@ -28,7 +28,7 @@ module "dataform" {
     dataform_create_release    = 1
     dataform_suffix_dev        = "dev"
     dataform_suffix_prod       = "prod"
-    dataform_create_trigger_ga = 1
+    dataform_ga_create_trigger = 1
     dataform_ga_regex_datasets = "^analytics_12345\\d+"
     dataform_ga_regex_tables   = "^events_\\d+"
 

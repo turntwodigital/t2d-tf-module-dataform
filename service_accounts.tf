@@ -16,32 +16,32 @@ resource "google_project_iam_member" "dataform" {
 
 # Grant Pub/sub standard service account access to serviceAccountTokenCreator
 resource "google_project_iam_binding" "project_binding_pubsub" {
-    count   = var.dataform_create_trigger_ga ? 1 : 0
+    count   = var.dataform_ga_create_trigger ? 1 : 0
 
     provider = google-beta
     project  = var.project_id
     role     = "roles/iam.serviceAccountTokenCreator"
     members  = ["serviceAccount:service-${data.google_project.project.number}@gcp-sa-pubsub.iam.gserviceaccount.com"]
     depends_on = [ 
-        google_project_service.pub_sub_api 
+        google_project_service.apis 
     ]
 }
 
 # Create a service account for Eventarc / Workflows / Dataform trigger
 resource "google_service_account" "dataform_workflows" {
-    count        = var.dataform_create_trigger_ga ? 1 : 0
+    count        = var.dataform_ga_create_trigger ? 1 : 0
     
     provider     = google-beta
     account_id   = "${var.resource_prefix}-dataform-workflows"
     display_name = "Dataform - Workflows Service Account"
     depends_on = [ 
-        google_project_service.iam_api 
+        google_project_service.apis 
     ]
 }
 
 # Set correct roles on the Eventarc / Workflows / Dataform trigger
 resource "google_project_iam_member" "dataform" {
-    count   = var.dataform_create_trigger_ga ? 1 : 0
+    count   = var.dataform_ga_create_trigger ? 1 : 0
     
     for_each = toset([
         "roles/logging.logWriter", # needed?

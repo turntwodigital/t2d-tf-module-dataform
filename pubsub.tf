@@ -1,6 +1,6 @@
 # Pub/sub topic for our log sink
 resource "google_pubsub_topic" "ga_exports" {
-    count   = var.dataform_create_trigger_ga ? 1 : 0
+    count   = var.dataform_ga_create_trigger ? 1 : 0
     
     name    = "${var.resource_prefix}-pubsub-ga_exports"
     project = var.project_id
@@ -11,7 +11,7 @@ resource "google_pubsub_topic" "ga_exports" {
 
 # Log sink which listens for GA4 raw data imports by Google 
 resource "google_logging_project_sink" "ga_exports" {
-    count       = var.dataform_create_trigger_ga ? 1 : 0
+    count       = var.dataform_ga_create_trigger ? 1 : 0
     
     name        = "${var.resource_prefix}-logsink-ga_exports"
     destination = "pubsub.googleapis.com/projects/${var.project_id}/topics/${google_pubsub_topic.ga_exports.name}"
@@ -24,7 +24,7 @@ resource "google_logging_project_sink" "ga_exports" {
 
 # Add log sink service account to Pub/sub topic and provide Pub/sub publish roles
 resource "google_pubsub_topic_iam_member" "pubsub_topic_add_sa" {
-    count   = var.dataform_create_trigger_ga ? 1 : 0
+    count   = var.dataform_ga_create_trigger ? 1 : 0
     
     project = var.project_id
     topic   = google_pubsub_topic.ga4_export_complete.name

@@ -50,7 +50,7 @@ variable "dataform_suffix_prod" {
     default     = "prod"
 }
 
-variable "dataform_create_trigger_ga" {
+variable "dataform_ga_create_trigger" {
     description = "Create a Dataform Workflow trigger when Google Analytics data is exported (based on cloud logs)"
     type        = string
     default     = 0
