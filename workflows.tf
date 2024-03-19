@@ -23,7 +23,7 @@ resource "google_workflows_workflow" "execute_dataform_ga4" {
 resource "google_eventarc_trigger" "ga4_export" {
     count       = var.dataform_ga_create_trigger ? 1 : 0
 
-    name        = "${var.resource_prefix}-eventarc-ga4_export"
+    name        = "${var.resource_prefix}-eventarc-ga4-export"
     location    = var.region
     matching_criteria {
         attribute = "type"
