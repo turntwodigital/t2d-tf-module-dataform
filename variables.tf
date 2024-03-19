@@ -66,6 +66,12 @@ variable "dataform_ga_regex_tables" {
     type        = string
 }
 
+variable "dataform_ga_tag" {
+    description = "The Dataform models with this tag specified will be run on new exports"
+    type        = string
+    default     = "ga4"
+}
+
 variable "dataform_ga_exec_deps" {
     description = "Execute Dataform dependencies of the GA4 models"
     type        = string

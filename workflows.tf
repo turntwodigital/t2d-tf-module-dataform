@@ -6,10 +6,11 @@ resource "google_workflows_workflow" "execute_dataform_ga4" {
     service_account = google_service_account.dataform_workflows[0].email
     source_contents = templatefile("${path.module}/src/workflow_trigger_dataform.yml", {
         project_id = var.project_id, 
-        region = google_dataform_repository.datahub.region , 
-        dataform_repository_name = google_dataform_repository.datahub.name, 
-        dataform_workspace_name = var.dataform_git_repo_main_branch,
-        dataform_execute_dependencies = var.dataform_ga_exec_deps
+        region = google_dataform_repository.datahub.region, 
+        dataform_repository = google_dataform_repository.datahub.name, 
+        dataform_workspace = var.dataform_git_repo_main_branch,
+        dataform_execute_dependencies = var.dataform_ga_exec_deps,
+        dataform_ga_tag = var.dataform_ga_tag
     })
     depends_on = [ 
         google_project_service.apis,

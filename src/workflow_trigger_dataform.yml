@@ -3,7 +3,7 @@ main:
     - init:
         assign:
           - table_id: $${json.decode(base64.decode(args.data.message.data)).protoPayload.serviceData.jobCompletedEvent.job.jobConfiguration.load.destinationTable.tableId}
-          - repository: projects/${project_id}/locations/${region}/repositories/${dataform_repository_name}
+          - repository: projects/${project_id}/locations/${region}/repositories/${dataform_repository}
     - logToLogging:
         call: sys.log
         args:
@@ -12,11 +12,11 @@ main:
         try:
             call: http.post
             args:
-                url: ${"https://dataform.googleapis.com/v1beta1/" + repository + "/compilationResults"}
+                url: $${"https://dataform.googleapis.com/v1beta1/" + repository + "/compilationResults"}
                 auth:
                     type: OAuth2
                 body:
-                    gitCommitish: ${dataform_workspace_name}
+                    gitCommitish: ${dataform_workspace}
             result: compilationResult
         retry:
             max_retries: 3
@@ -27,17 +27,17 @@ main:
     - createWorkflowInvocation:
         call: http.post
         args:
-            url: ${"https://dataform.googleapis.com/v1beta1/" + repository + "/workflowInvocations"}
+            url: $${"https://dataform.googleapis.com/v1beta1/" + repository + "/workflowInvocations"}
             auth:
                 type: OAuth2
             body:
-                compilationResult: ${compilationResult.body.name}
+                compilationResult: $${compilationResult.body.name}
                 invocationConfig: 
                     fullyRefreshIncrementalTablesEnabled: false
-                    includedTags: ["ga4"]
+                    includedTags: ["${dataform_ga_tag}"]
                     includedTargets: []
                     transitiveDependenciesIncluded: ${dataform_execute_dependencies}
                     transitiveDependentsIncluded: false
         result: workflowInvocation
     - complete:
-        return: ${workflowInvocation.body.name + " complete"}
+        return: $${workflowInvocation.body.name + " complete"}

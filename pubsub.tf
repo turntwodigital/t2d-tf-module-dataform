@@ -27,7 +27,7 @@ resource "google_pubsub_topic_iam_member" "pubsub_topic_add_sa" {
     count   = var.dataform_ga_create_trigger ? 1 : 0
     
     project = var.project_id
-    topic   = google_pubsub_topic.ga4_exports.name
+    topic   = google_pubsub_topic.ga_exports.name
     role    = "roles/pubsub.publisher"
     member  = "serviceAccount:cloud-logs@system.gserviceaccount.com"
     depends_on = [ 

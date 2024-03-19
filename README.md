@@ -31,6 +31,7 @@ module "dataform" {
     dataform_ga_create_trigger = 1
     dataform_ga_regex_datasets = "^analytics_12345\\d+"
     dataform_ga_regex_tables   = "^events_\\d+"
+    dataform_ga_exec_deps      = "true"
 
 
     depends_on = [
