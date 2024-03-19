@@ -6,6 +6,7 @@ data "google_project" "project" {
 resource "google_dataform_repository" "datahub" {
     provider        = google-beta
     name            = "${var.resource_prefix}-dataform-${var.dataform_name}"
+    region          = var.region
 
     git_remote_settings {
         url = var.dataform_git_repo

@@ -8,6 +8,11 @@ variable "project_id" {
     type        = string
 }
 
+variable "region" {
+    description = "GCP Region"
+    type        = string
+}
+
 variable "dataform_name" {
     description = "Name for Google Dataform (internal) repository"
     type        = string
