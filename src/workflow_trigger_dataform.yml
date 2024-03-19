@@ -36,7 +36,7 @@ main:
                     fullyRefreshIncrementalTablesEnabled: false
                     includedTags: ["ga4"]
                     includedTargets: []
-                    transitiveDependenciesIncluded: true
+                    transitiveDependenciesIncluded: ${dataform_execute_dependencies}
                     transitiveDependentsIncluded: false
         result: workflowInvocation
     - complete:

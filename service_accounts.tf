@@ -40,7 +40,7 @@ resource "google_service_account" "dataform_workflows" {
 }
 
 # Set correct roles on the Eventarc / Workflows / Dataform trigger
-resource "google_project_iam_member" "dataform" {
+resource "google_project_iam_member" "dataform_workflows" {
     count   = var.dataform_ga_create_trigger ? 1 : 0
     
     for_each = toset([

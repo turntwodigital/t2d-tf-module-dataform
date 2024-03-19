@@ -65,3 +65,9 @@ variable "dataform_ga_regex_tables" {
     description = "The RegEx to filter the GA4 raw data exports for specific dataset(s)"
     type        = string
 }
+
+variable "dataform_ga_exec_deps" {
+    description = "Execute Dataform dependencies of the GA4 models"
+    type        = string
+    default     = true
+}
