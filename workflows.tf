@@ -37,7 +37,7 @@ resource "google_eventarc_trigger" "ga4_export" {
     destination {
         workflow = "projects/${var.project_id}/locations/${var.region}/workflows/execute_dataform_ga4"
     }
-    service_account = google_service_account.dataform_workflows.email
+    service_account = google_service_account.dataform_workflows[0].email
     depends_on = [ 
         google_project_service.apis, 
         google_workflows_workflow.execute_dataform_ga4, 
