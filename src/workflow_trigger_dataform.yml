@@ -2,12 +2,7 @@ main:
     steps:
     - init:
         assign:
-          - table_id: $${json.decode(base64.decode(args.data.message.data)).protoPayload.serviceData.jobCompletedEvent.job.jobConfiguration.load.destinationTable.tableId}
           - repository: projects/${project_id}/locations/${region}/repositories/${dataform_repository}
-    - logToLogging:
-        call: sys.log
-        args:
-            data: $${table_id}
     - createCompilationResult:
         try:
             call: http.post
