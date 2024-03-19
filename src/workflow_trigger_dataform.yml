@@ -16,7 +16,7 @@ main:
                 auth:
                     type: OAuth2
                 body:
-                    gitCommitish: ${dataform_workspace_name} #check
+                    gitCommitish: main
             result: compilationResult
         retry:
             max_retries: 3
