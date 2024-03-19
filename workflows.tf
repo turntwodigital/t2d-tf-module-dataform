@@ -1,8 +1,8 @@
 # Create a Workflow that will execute Dataform
-resource "google_workflows_workflow" "execute_dataform_ga4" {
+resource "google_workflows_workflow" "execute_dataform_ga" {
     count   = var.dataform_ga_create_trigger ? 1 : 0
     
-    name            = "${var.resource_prefix}-workflow-execute_dataform_ga4"
+    name            = "${var.resource_prefix}-workflow-execute-dataform-ga"
     service_account = google_service_account.dataform_workflows[0].email
     source_contents = templatefile("${path.module}/src/workflow_trigger_dataform.yml", {
         project_id = var.project_id, 
@@ -20,10 +20,10 @@ resource "google_workflows_workflow" "execute_dataform_ga4" {
 }
 
 # Create an Event Arc Pub/sub trigger for the Dataform workflow
-resource "google_eventarc_trigger" "ga4_export" {
+resource "google_eventarc_trigger" "ga_export" {
     count       = var.dataform_ga_create_trigger ? 1 : 0
 
-    name        = "${var.resource_prefix}-eventarc-ga4-export"
+    name        = "${var.resource_prefix}-eventarc-ga-export"
     location    = var.region
     matching_criteria {
         attribute = "type"
@@ -35,12 +35,12 @@ resource "google_eventarc_trigger" "ga4_export" {
         }
     }
     destination {
-        workflow = "projects/${var.project_id}/locations/${var.region}/workflows/execute_dataform_ga4"
+        workflow = "projects/${var.project_id}/locations/${var.region}/workflows/${google_workflows_workflow.execute_dataform_ga.name}"
     }
     service_account = google_service_account.dataform_workflows[0].email
     depends_on = [ 
         google_project_service.apis, 
-        google_workflows_workflow.execute_dataform_ga4, 
+        google_workflows_workflow.execute_dataform_ga, 
         google_pubsub_topic.ga_exports,
         google_dataform_repository.datahub 
     ]
