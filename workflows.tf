@@ -35,7 +35,7 @@ resource "google_eventarc_trigger" "ga_export" {
         }
     }
     destination {
-        workflow = "projects/${var.project_id}/locations/${var.region}/workflows/${google_workflows_workflow.execute_dataform_ga.name}"
+        workflow = "projects/${var.project_id}/locations/${var.region}/workflows/${google_workflows_workflow.execute_dataform_ga[0].name}"
     }
     service_account = google_service_account.dataform_workflows[0].email
     depends_on = [ 
