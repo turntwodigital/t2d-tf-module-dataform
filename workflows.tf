@@ -8,7 +8,7 @@ resource "google_workflows_workflow" "execute_dataform_ga4" {
         project_id = var.project_id, 
         region = google_dataform_repository.datahub.region , 
         dataform_repository_name = google_dataform_repository.name, 
-        dataform_workspace_name = var.dataform_workspace_name
+        dataform_workspace_name = var.dataform_git_repo_main_branch
     })
     depends_on = [ 
         google_project_service.workflows_api,

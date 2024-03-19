@@ -29,7 +29,7 @@ resource "google_dataform_repository_release_config" "datahub" {
     repository = google_dataform_repository.datahub.name
 
     name          = "${var.resource_prefix}_dataform_release_full_model"
-    git_commitish = "main"
+    git_commitish = var.dataform_git_repo_main_branch
     cron_schedule = "55 * * * *"
     time_zone     = "Europe/Amsterdam"
 

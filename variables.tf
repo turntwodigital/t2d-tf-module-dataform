@@ -26,6 +26,12 @@ variable "dataform_git_repo_secret" {
     default     = ""
 }
 
+variable "dataform_git_repo_main_branch" {
+    description = "Dataform repo main branch"
+    type        = string
+    default     = "main"
+}
+
 variable "dataform_create_release" {
     description = "Create and schedule a release"
     type        = string
