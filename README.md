@@ -47,7 +47,7 @@ module "dataform" {
 
 ## Version History
 
-* 0.2
+* 0.3
     * Added support for triggering Dataform when GA4 exports are ready
 * 0.1
     * Initial Release
