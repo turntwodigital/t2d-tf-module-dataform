@@ -3,11 +3,11 @@ resource "google_workflows_workflow" "execute_dataform_ga4" {
     count   = var.dataform_ga_create_trigger ? 1 : 0
     
     name            = "${var.resource_prefix}-workflow-execute_dataform_ga4"
-    service_account = google_service_account.dataform_workflows.email
+    service_account = google_service_account.dataform_workflows[0].email
     source_contents = templatefile("src/workflow_trigger_dataform.yml", {
         project_id = var.project_id, 
         region = google_dataform_repository.datahub.region , 
-        dataform_repository_name = google_dataform_repository.name, 
+        dataform_repository_name = google_dataform_repository.datahub.name, 
         dataform_workspace_name = var.dataform_git_repo_main_branch,
         dataform_execute_dependencies = var.dataform_ga_exec_deps
     })

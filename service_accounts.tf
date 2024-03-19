@@ -49,7 +49,7 @@ resource "google_project_iam_member" "dataform_workflows" {
     provider = google-beta
     project  = var.project_id
     role     = each.value
-    member   = "serviceAccount:${google_service_account.dataform_workflows.email}"
+    member   = "serviceAccount:${google_service_account.dataform_workflows[0].email}"
     depends_on = [
         google_service_account.dataform_workflows
     ]
