@@ -31,7 +31,7 @@ resource "google_eventarc_trigger" "ga_export" {
     }
     transport {
         pubsub {
-            topic = "projects/${var.project_id}/topics/ga_exports"
+            topic = "projects/${var.project_id}/topics/${google_pubsub_topic.ga_exports[0].name}"
         }
     }
     destination {
