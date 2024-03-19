@@ -5,7 +5,11 @@ resource "google_project_service" "apis" {
       "iam.googleapis.com",
       "dataform.googleapis.com",
       "cloudscheduler.googleapis.com",
-      "secretmanager.googleapis.com"
+      "secretmanager.googleapis.com",
+      "eventarc.googleapis.com",
+      "workflows.googleapis.com",
+      "workflowexecutions.googleapis.com",
+      "pubsub.googleapis.com",
     ]
   )
   service                    = each.key

@@ -1,0 +1,43 @@
+main:
+    steps:
+    - init:
+        assign:
+          - table_id: $${json.decode(base64.decode(args.data.message.data)).protoPayload.serviceData.jobCompletedEvent.job.jobConfiguration.load.destinationTable.tableId}
+          - repository: projects/${project_id}/locations/${region}/repositories/${dataform_repository_name}
+    - logToLogging:
+        call: sys.log
+        args:
+            data: $${table_id}
+    - createCompilationResult:
+        try:
+            call: http.post
+            args:
+                url: ${"https://dataform.googleapis.com/v1beta1/" + repository + "/compilationResults"}
+                auth:
+                    type: OAuth2
+                body:
+                    gitCommitish: ${dataform_workspace_name} #check
+            result: compilationResult
+        retry:
+            max_retries: 3
+            backoff:
+                initial_delay: 3600
+                max_delay: 3600
+                multiplier: 2
+    - createWorkflowInvocation:
+        call: http.post
+        args:
+            url: ${"https://dataform.googleapis.com/v1beta1/" + repository + "/workflowInvocations"}
+            auth:
+                type: OAuth2
+            body:
+                compilationResult: ${compilationResult.body.name}
+                invocationConfig: 
+                    fullyRefreshIncrementalTablesEnabled: false
+                    includedTags: ["ga4"]
+                    includedTargets: []
+                    transitiveDependenciesIncluded: true
+                    transitiveDependentsIncluded: false
+        result: workflowInvocation
+    - complete:
+        return: ${workflowInvocation.body.name + " complete"}

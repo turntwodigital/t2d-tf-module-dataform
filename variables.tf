@@ -43,3 +43,19 @@ variable "dataform_suffix_prod" {
     type        = string
     default     = "prod"
 }
+
+variable "dataform_create_trigger_ga" {
+    description = "Create a Dataform Workflow trigger when Google Analytics data is exported (based on cloud logs)"
+    type        = string
+    default     = 0
+}
+
+variable "dataform_ga_regex_datasets" {
+    description = "The RegEx to filter the GA4 raw data exports for specific dataset(s)"
+    type        = string
+}
+
+variable "dataform_ga_regex_tables" {
+    description = "The RegEx to filter the GA4 raw data exports for specific dataset(s)"
+    type        = string
+}

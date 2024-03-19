@@ -19,15 +19,19 @@ Terraform module to set up a Google Dataform repository within Google Cloud Plat
 
 ```terraform
 module "dataform" {
-    count                     = contains(var.modules_list, "dataform") ? 1 : 0
-    source                    = "git::https://github.com/turntwodigital/t2d-tf-module-dataform.git?ref=v0.1.0"
-    project_id                = var.project_id
-    resource_prefix           = var.resource_prefix
-    dataform_git_repo         = var.dataform_git_repo
-    dataform_git_repo_secret  = var.dataform_git_repo_secret
-    dataform_create_release   = 1
-    dataform_suffix_dev       = "dev"
-    dataform_suffix_prod      = "prod"
+    count                      = contains(var.modules_list, "dataform") ? 1 : 0
+    source                     = "git::https://github.com/turntwodigital/t2d-tf-module-dataform.git?ref=v0.2.0"
+    project_id                 = var.project_id
+    resource_prefix            = var.resource_prefix
+    dataform_git_repo          = var.dataform_git_repo
+    dataform_git_repo_secret   = var.dataform_git_repo_secret
+    dataform_create_release    = 1
+    dataform_suffix_dev        = "dev"
+    dataform_suffix_prod       = "prod"
+    dataform_create_trigger_ga = 1
+    dataform_ga_regex_datasets = "^analytics_12345\\d+"
+    dataform_ga_regex_tables   = "^events_\\d+"
+
 
     depends_on = [
         google_project_service.apis
@@ -42,8 +46,7 @@ module "dataform" {
 ## Version History
 
 * 0.2
-    * -
-    * -
+    * Added support for triggering Dataform when GA4 exports are ready
 * 0.1
     * Initial Release
 
