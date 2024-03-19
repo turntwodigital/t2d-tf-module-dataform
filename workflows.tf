@@ -1,6 +1,6 @@
 # Create a Workflow that will execute Dataform
 resource "google_workflows_workflow" "execute_dataform_ga4" {
-    count   = var.dataform_create_trigger_ga ? 1 : 0
+    count   = var.dataform_ga_create_trigger ? 1 : 0
     
     name            = "${var.resource_prefix}-workflow-execute_dataform_ga4"
     service_account = google_service_account.dataform_workflows.email
@@ -20,7 +20,7 @@ resource "google_workflows_workflow" "execute_dataform_ga4" {
 
 # Create an Event Arc Pub/sub trigger for the Dataform workflow
 resource "google_eventarc_trigger" "ga4_export" {
-    count       = var.dataform_create_trigger_ga ? 1 : 0
+    count       = var.dataform_ga_create_trigger ? 1 : 0
 
     name        = "${var.resource_prefix}-eventarc-ga4_export"
     location    = google_dataform_repository.datahub.region
