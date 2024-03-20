@@ -2,7 +2,7 @@
 resource "google_pubsub_topic" "ga_exports" {
     count   = var.dataform_ga_create_trigger ? 1 : 0
     
-    name    = "${var.resource_prefix}-pubsub-ga_exports"
+    name    = "${var.resource_prefix}-pubsub-ga-exports"
     project = var.project_id
     depends_on = [ 
         google_project_service.apis
@@ -13,7 +13,7 @@ resource "google_pubsub_topic" "ga_exports" {
 resource "google_logging_project_sink" "ga_exports" {
     count       = var.dataform_ga_create_trigger ? 1 : 0
     
-    name        = "${var.resource_prefix}-logsink-ga_exports"
+    name        = "${var.resource_prefix}-logsink-ga-exports"
     destination = "pubsub.googleapis.com/projects/${var.project_id}/topics/${google_pubsub_topic.ga_exports[0].name}"
     filter      = "protoPayload.methodName=\"jobservice.jobcompleted\"\nAND protoPayload.authenticationInfo.principalEmail=\"firebase-measurement@system.gserviceaccount.com\"\nAND protoPayload.serviceData.jobCompletedEvent.job.jobConfiguration.load.destinationTable.datasetId=~\"${var.dataform_ga_regex_datasets}\"\nAND protoPayload.serviceData.jobCompletedEvent.job.jobConfiguration.load.destinationTable.tableId=~\"${var.dataform_ga_regex_tables}\""
     depends_on  = [ 

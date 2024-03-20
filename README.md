@@ -1,15 +1,14 @@
-## Example ussage
-
 # t2d-tf-module-dataform
 
-Terraform module to set up a Google Dataform repository within Google Cloud Platform (GCP). By [Turntwo](https://turntwo.com)
+Terraform module to set up a Google Dataform repository within Google Cloud Platform (GCP), including additional features. 
+
+By Krisjan Oldekamp / [Turntwo](https://turntwo.com)
 
 ## Features
 
-- Creates a dedicated Service Account
-- Creates a Dataform repository
+- Creates a Google Dataform repository and release
 - Connects an (external) Git repo
-- Adhering to a naming convention
+- Optionally, you can set up a trigger workflow that runs the Dataform models tagged with `ga4` when the raw Google Analytics 4 (GA4) export is ready (only possible for daily exports)
 
 ## Prerequisities
 
@@ -30,10 +29,9 @@ module "dataform" {
     dataform_suffix_dev        = "dev"
     dataform_suffix_prod       = "prod"
     dataform_ga_create_trigger = 1
-    dataform_ga_regex_datasets = "^analytics_12345\\d+"
+    dataform_ga_regex_datasets = "^analytics_12345"
     dataform_ga_regex_tables   = "^events_\\d+"
     dataform_ga_exec_deps      = "true"
-
 
     depends_on = [
         google_project_service.apis
