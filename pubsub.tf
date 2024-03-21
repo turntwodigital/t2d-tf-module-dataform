@@ -29,7 +29,7 @@ resource "google_pubsub_topic_iam_member" "pubsub_topic_add_sa" {
     project = var.project_id
     topic   = google_pubsub_topic.ga_exports[0].name
     role    = "roles/pubsub.publisher"
-    member  = "serviceAccount:cloud-logs@system.gserviceaccount.com"
+    members  = ["serviceAccount:cloud-logs@system.gserviceaccount.com", "serviceAccount:service-${data.google_project.project.number}@gcp-sa-logging.iam.gserviceaccount.com"]
     depends_on = [ 
         google_logging_project_sink.ga_exports
     ]
