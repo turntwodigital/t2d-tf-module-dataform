@@ -12,6 +12,8 @@ main:
                     type: OAuth2
                 body:
                     gitCommitish: ${dataform_workspace}
+                    codeCompilationConfig:
+                        schemaSuffix: ${dataform_suffix_prod}
             result: compilationResult
         retry:
             max_retries: 3
