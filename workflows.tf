@@ -11,6 +11,7 @@ resource "google_workflows_workflow" "execute_dataform_ga" {
         dataform_workspace = var.dataform_git_repo_main_branch,
         dataform_execute_dependencies = var.dataform_ga_exec_deps,
         dataform_ga_tag = var.dataform_ga_tag
+        dataform_suffix_prod = var.dataform_suffix_prod
     })
     depends_on = [ 
         google_project_service.apis,
