@@ -9,7 +9,7 @@ const functions = require('@google-cloud/functions-framework');
 const axios = require('axios');
 
 functions.http('main', (req, res) => {
-    if (require.method !== 'POST') {
+    if (req.method !== 'POST') {
         res.status(405).send('Method Not Allowed');
         return;
     }
