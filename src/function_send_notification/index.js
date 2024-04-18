@@ -10,7 +10,7 @@ const axios = require('axios');
 
 functions.http('main', (req, res) => {
     if (require.method !== 'POST') {
-        response.status(405).send('Method Not Allowed');
+        res.status(405).send('Method Not Allowed');
         return;
     }
 
@@ -18,7 +18,7 @@ functions.http('main', (req, res) => {
         const body = JSON.parse(req.rawBody);
 
         if (!body.text || !body.endpoint) {
-            response.status(400).send('Missing required properties: text and endpoint');
+            res.status(400).send('Missing required properties: text and endpoint');
             return;
         }
 

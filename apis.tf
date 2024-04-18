@@ -4,6 +4,7 @@ resource "google_project_service" "apis" {
     [
       "iam.googleapis.com",
       "artifactregistry.googleapis.com",
+      "bigqueryconnection.googleapis.com",
       "dataform.googleapis.com",
       "cloudscheduler.googleapis.com",
       "cloudfunctions.googleapis.com",
