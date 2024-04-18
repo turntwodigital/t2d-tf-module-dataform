@@ -32,7 +32,7 @@ resource "google_cloudfunctions2_function" "send_notification" {
 
 data "archive_file" "send_notification" {
     type        = "zip"
-    output_path = "/tmp/${var.name}.zip"
+    output_path = "/tmp/function_send_notification.zip"
     source_dir  = "${path.module}/../src/function_send_notification"
     excludes    = [
         "node_modules",
