@@ -58,5 +58,5 @@ module "dataform" {
 
 Inspiration, code snippets, etc.
 
-* [GTM Gear / Artem Korneev](https://gtm-gear.com/posts/ga4-terraform/)\
+* [GTM Gear / Artem Korneev](https://gtm-gear.com/posts/ga4-terraform/)
 * [Moritz Bauer](https://github.com/Liscor/terraform_dataform_ga4_pipeline)

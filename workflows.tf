@@ -4,7 +4,7 @@ resource "google_workflows_workflow" "execute_dataform_ga" {
     
     name            = "${var.resource_prefix}-workflow-execute-dataform-ga"
     service_account = google_service_account.dataform_workflows[0].email
-    source_contents = templatefile("${path.module}/src/workflow_trigger_dataform.yml", {
+    source_contents = templatefile("${path.module}/src/workflow_trigger_dataform/workflow_trigger_dataform.yml", {
         project_id = var.project_id, 
         region = var.region, 
         dataform_repository = google_dataform_repository.datahub.name, 
@@ -13,6 +13,7 @@ resource "google_workflows_workflow" "execute_dataform_ga" {
         dataform_ga_tag = var.dataform_ga_tag
         dataform_suffix_prod = var.dataform_suffix_prod
     })
+    
     depends_on = [ 
         google_project_service.apis,
         google_service_account.dataform_workflows,
@@ -39,6 +40,7 @@ resource "google_eventarc_trigger" "ga_export" {
         workflow = "projects/${var.project_id}/locations/${var.region}/workflows/${google_workflows_workflow.execute_dataform_ga[0].name}"
     }
     service_account = google_service_account.dataform_workflows[0].email
+    
     depends_on = [ 
         google_project_service.apis, 
         google_workflows_workflow.execute_dataform_ga, 

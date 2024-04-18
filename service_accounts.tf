@@ -9,6 +9,7 @@ resource "google_project_iam_member" "dataform" {
     project = var.project_id
     role    = each.value
     member  = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-dataform.iam.gserviceaccount.com"
+    
     depends_on = [
         google_dataform_repository.datahub
     ]
@@ -22,6 +23,7 @@ resource "google_project_iam_binding" "project_binding_pubsub" {
     project  = var.project_id
     role     = "roles/iam.serviceAccountTokenCreator"
     members  = ["serviceAccount:service-${data.google_project.project.number}@gcp-sa-pubsub.iam.gserviceaccount.com"]
+    
     depends_on = [ 
         google_project_service.apis 
     ]
@@ -34,6 +36,7 @@ resource "google_service_account" "dataform_workflows" {
     provider     = google-beta
     account_id   = "${var.resource_prefix}-dataform-workflows"
     display_name = "Dataform - Workflows Service Account"
+    
     depends_on = [ 
         google_project_service.apis 
     ]
@@ -50,6 +53,7 @@ resource "google_project_iam_member" "dataform_workflows" {
     project  = var.project_id
     role     = each.value
     member   = "serviceAccount:${google_service_account.dataform_workflows[0].email}"
+    
     depends_on = [
         google_service_account.dataform_workflows
     ]
