@@ -41,7 +41,7 @@ data "archive_file" "send_notification" {
 }
 
 resource "google_storage_bucket_object" "send_notification" {
-    name   = "${var.name}.${data.archive_file.this.output_sha}.zip"
+    name   = "${var.name}.${data.archive_file.send_notification.output_sha}.zip"
     bucket = google_storage_bucket.send_notification.id
     source = data.archive_file.send_notification.output_path
     depends_on = [ 
