@@ -28,7 +28,7 @@ functions.http('main', (req, res) => {
             const res = await axios.post(body.endpoint, data);
         })();
 
-        res.status(res.status).send('Success');
+        res.status(200).json({ 'result': 'Succesfully send!' });
 
     } catch (error) {
         console.error('Error:', error);

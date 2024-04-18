@@ -58,3 +58,14 @@ resource "google_project_iam_member" "dataform_workflows" {
         google_service_account.dataform_workflows
     ]
 }
+
+# Grant the service account of the BigQuery connection Cloud Function (v2) execution rights
+resource "google_project_iam_member" "connection_grant" {
+    project = var.project_id
+    role    = "roles/run.invoker"
+    member = format("serviceAccount:%s", google_bigquery_connection.connection_bigquery_udf.cloud_resource[0].service_account_id)
+
+    depends_on = [
+        google_bigquery_connection.connection_bigquery_udf
+    ]
+}   
