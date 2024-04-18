@@ -4,7 +4,8 @@ resource "google_project_iam_member" "dataform" {
         "roles/bigquery.dataEditor", 
         "roles/bigquery.jobUser",
         "roles/dataform.admin",
-        "roles/iam.serviceAccountUser"
+        "roles/iam.serviceAccountUser",
+        "roles/bigquery.connectionAdmin"
     ])
     project = var.project_id
     role    = each.value
