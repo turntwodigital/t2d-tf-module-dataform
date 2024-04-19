@@ -20,7 +20,7 @@ functions.http('main', (req, res) => {
         const endpoint = body.calls[0][1];
         
         if (!text || !endpoint) {
-            res.status(400).send('Missing required properties: text and endpoint');
+            res.status(400).json({'replies': ['Missing required properties: text and endpoint!']});
             return;
         }
 
@@ -30,10 +30,10 @@ functions.http('main', (req, res) => {
             const res = await axios.post(endpoint, data);
         })();
 
-        res.status(200).json({'replies': 'Notification succesfully processed!'});
+        res.status(200).json({'replies': ['Notification succesfully processed!']});
 
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).json({'replies': 'Error processing notification.'});
+        res.status(500).json({'replies': ['Error processing notification.']});
     }
 });
