@@ -15,23 +15,25 @@ functions.http('main', (req, res) => {
     }
 
     try {
-        const body = JSON.parse(req.rawBody);
-
-        if (!body.text || !body.endpoint) {
+        const body = req.body;
+        const text = body.calls[0][0];
+        const endpoint = body.calls[0][1];
+        
+        if (!text || !endpoint) {
             res.status(400).send('Missing required properties: text and endpoint');
             return;
         }
 
-        const data = { text: body.text };
+        const data = { text: text };
 
         (async () => {
-            const res = await axios.post(body.endpoint, data);
+            const res = await axios.post(endpoint, data);
         })();
 
-        res.status(200).json({ 'result': 'Succesfully send!' });
+        res.status(200).json({'replies': 'Notification succesfully processed!'});
 
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).send('Internal Server Error');
+        res.status(500).json({'replies': 'Error processing notification.'});
     }
 });
