@@ -49,6 +49,8 @@ resource "google_project_iam_member" "dataform_workflows" {
         "roles/logging.logWriter",
         "roles/workflows.invoker",
         "roles/dataform.serviceAgent",
+        "roles/bigquery.dataEditor", 
+        "roles/bigquery.jobUser",
     ]) : toset([])
     provider = google-beta
     project  = var.project_id
