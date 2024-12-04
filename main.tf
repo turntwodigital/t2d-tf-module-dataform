@@ -16,6 +16,10 @@ resource "google_dataform_repository" "datahub" {
     workspace_compilation_overrides {
         schema_suffix = var.dataform_suffix_dev
     }
+
+    depends_on = [
+        google_secret_manager_secret_version.secret_version
+    ]
 }
 
 # Create and schedule release
