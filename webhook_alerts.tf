@@ -8,9 +8,6 @@ resource "google_monitoring_notification_channel" "webhook_dataform" {
     url = var.dataform_webhook_url
   }
 
-  sensitive_labels {
-    auth_token = "t2d2022"
-  }
 }
 
 resource "google_monitoring_alert_policy" "dataform_failed_run" {
