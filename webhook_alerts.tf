@@ -30,7 +30,7 @@ resource "google_monitoring_alert_policy" "dataform_failed_run" {
         "dataform_workflow_execution_action_id_schema" = "EXTRACT(protoPayload.metadata.jobChange.job.jobConfig.labels.dataform_workflow_execution_action_id_schema)",
         "dataform_workflow_execution_action_id_name" = "EXTRACT(protoPayload.metadata.jobChange.job.jobConfig.labels.dataform_workflow_execution_action_id_name)",
         "dataform_workflow_execution_id" = "EXTRACT(protoPayload.metadata.jobChange.job.jobConfig.labels.dataform_workflow_execution_id)",
-        "table_description" = "REGEXP_EXTRACT(protoPayload.metadata.jobChange.job.jobConfig.queryConfig.query, r\"OPTIONS\\(description='''(.*?)'''\")"
+        #"table_description" = "REGEXP_EXTRACT(protoPayload.metadata.jobChange.job.jobConfig.queryConfig.query, \"OPTIONS\\(description='''([^']*?)'''\")"
       }
     }
   }
