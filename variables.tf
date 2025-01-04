@@ -16,6 +16,7 @@ variable "region" {
 variable "dataform_region" {
     description = "GCP Region"
     type        = string
+    default     = ""
 }
 
 variable "dataform_name" {
