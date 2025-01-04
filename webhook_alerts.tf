@@ -5,7 +5,7 @@ resource "google_monitoring_notification_channel" "webhook_dataform" {
   type         = "webhook"
   
   labels = {
-    url = "${var.dataform_webhook_url}"
+    url = var.dataform_webhook_url
   }
 }
 
@@ -45,7 +45,7 @@ resource "google_monitoring_alert_policy" "dataform_failed_run" {
   }
 
   documentation {
-    content = "Failed action in workflow run for ${dataform_repository_id}. ${dataform_workflow_execution_action_id_name}: ${error_message}"
+    content = "Failed action in workflow run for $${dataform_repository_id}. $${dataform_workflow_execution_action_id_name}: $${error_message}"
     mime_type = "text/markdown"
   }
 
