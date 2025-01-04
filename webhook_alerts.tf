@@ -36,7 +36,7 @@ resource "google_monitoring_alert_policy" "dataform_failed_run" {
   }
 
   notification_channels = [
-    google_monitoring_notification_channel.webhook_dataform[0].id
+    google_monitoring_notification_channel.webhook_dataform_failed_run[0].id
   ]
 
   alert_strategy {
@@ -52,6 +52,6 @@ resource "google_monitoring_alert_policy" "dataform_failed_run" {
 
   depends_on = [ 
     google_project_service.apis, 
-    google_monitoring_notification_channel.webhook_dataform
+    google_monitoring_notification_channel.webhook_dataform_failed_run
   ]
 }
