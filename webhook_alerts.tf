@@ -1,7 +1,7 @@
-resource "google_monitoring_notification_channel" "webhook_dataform" {
+resource "google_monitoring_notification_channel" "webhook_dataform_failed_run" {
   count = var.dataform_create_webhook ? 1 : 0
   
-  display_name = "${var.resource_prefix}-webhook-dataform"
+  display_name = "${var.resource_prefix}-webhook-dataform-failed-run"
   type         = "webhook_tokenauth"
   
   labels = {
