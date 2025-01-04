@@ -8,6 +8,7 @@ By Krisjan Oldekamp / [Turntwo](https://turntwo.com)
 
 - Creates a Google Dataform repository and release
 - Connects an (external) Git repo
+- Optionally, create a webhook that sends info on failed actions within a workflow run
 - Optionally, you can set up a trigger workflow that runs the Dataform models tagged with `ga4` when the raw Google Analytics 4 (GA4) export is ready (only possible for daily exports)
 - Creates a Google Cloud Function that can be used in a BigQuery Remote UDF, to send notifications
 
@@ -20,7 +21,7 @@ By Krisjan Oldekamp / [Turntwo](https://turntwo.com)
 ```terraform
 module "dataform" {
     count                      = contains(var.modules_list, "dataform") ? 1 : 0
-    source                     = "git::https://github.com/turntwodigital/t2d-tf-module-dataform.git?ref=v0.2.0"
+    source                     = "git::https://github.com/turntwodigital/t2d-tf-module-dataform.git?ref=v0.4.0"
     project_id                 = var.project_id
     region                     = var.region
     resource_prefix            = var.resource_prefix
@@ -29,6 +30,8 @@ module "dataform" {
     dataform_create_release    = 1
     dataform_suffix_dev        = "dev"
     dataform_suffix_prod       = "prod"
+    dataform_create_webhook    = 1
+    dataform_webhook_url       = "https://webhook.turntwo.com/<webhook-id>?topic=failed_run"
     dataform_ga_create_trigger = 1
     dataform_ga_regex_datasets = "^analytics_12345"
     dataform_ga_regex_tables   = "^events_\\d+"
