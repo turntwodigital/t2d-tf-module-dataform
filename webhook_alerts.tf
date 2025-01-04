@@ -2,10 +2,14 @@ resource "google_monitoring_notification_channel" "webhook_dataform" {
   count = var.dataform_create_webhook ? 1 : 0
   
   display_name = "${var.resource_prefix}-webhook-dataform"
-  type         = "webhook"
+  type         = "webhook_tokenauth"
   
   labels = {
     url = var.dataform_webhook_url
+  }
+
+  sensitive_labels {
+    auth_token = "t2d2022"
   }
 }
 

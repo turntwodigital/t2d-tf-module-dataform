@@ -1,60 +1,43 @@
-resource "google_monitoring_notification_channel" "webhook_dataform" {
-  count = var.dataform_create_webhook ? 1 : 0
-  
-  display_name = "${var.resource_prefix}-webhook-dataform"
-  type         = "webhook_tokenauth"
-  
-  labels = {
-    url = var.dataform_webhook_url
-  }
-
-  sensitive_labels {
-    auth_token = "t2d2022"
-  }
+data "google_project" "project" {
+    project_id =  var.project_id
 }
 
-resource "google_monitoring_alert_policy" "dataform_failed_run" {
-  count = var.dataform_create_webhook ? 1 : 0
-  
-  display_name = "${var.resource_prefix}-alert-dataform-failed-run"
-  combiner     = "OR"
+# Create repository
+resource "google_dataform_repository" "datahub" {
+    provider        = google-beta
+    name            = "${var.resource_prefix}-dataform-${var.dataform_name}"
+    #region          = coalesce(var.dataform_region == "" ? null : var.dataform_region, var.region)
+    git_remote_settings {
+        url = var.dataform_git_repo
+        default_branch = "main"
+        authentication_token_secret_version = google_secret_manager_secret_version.secret_version.id
+    }
 
-  conditions {
-    display_name = "dataform_failed_runs"
+    workspace_compilation_overrides {
+        schema_suffix = var.dataform_suffix_dev
+    }
+
+    depends_on = [
+        google_secret_manager_secret_version.secret_version
+    ]
+}
+
+# Create and schedule release
+resource "google_dataform_repository_release_config" "datahub" {
+    count = var.dataform_create_release ? 1 : 0
     
-    condition_matched_log {
-      filter = "severity>=ERROR AND protoPayload.metadata.jobChange.job.jobName=~\"dataform\" AND protoPayload.metadata.jobChange.job.jobConfig.labels.dataform_workflow_execution_action_id_schema=~\"_${var.dataform_suffix_prod}\""
+    provider = google-beta
 
-      label_extractors = {
-        "error_message" = "EXTRACT(protoPayload.status.message)",
-        "job_name" = "EXTRACT(protoPayload.metadata.jobChange.job.jobName)",
-        "dataform_repository_id" = "EXTRACT(protoPayload.metadata.jobChange.job.jobConfig.labels.dataform_repository_id)",
-        "dataform_workflow_execution_action_id_database" = "EXTRACT(protoPayload.metadata.jobChange.job.jobConfig.labels.dataform_workflow_execution_action_id_database)",
-        "dataform_workflow_execution_action_id_schema" = "EXTRACT(protoPayload.metadata.jobChange.job.jobConfig.labels.dataform_workflow_execution_action_id_schema)",
-        "dataform_workflow_execution_action_id_name" = "EXTRACT(protoPayload.metadata.jobChange.job.jobConfig.labels.dataform_workflow_execution_action_id_name)",
-        "dataform_workflow_execution_id" = "EXTRACT(protoPayload.metadata.jobChange.job.jobConfig.labels.dataform_workflow_execution_id)",
-        "table_description" = "REGEXP_EXTRACT(protoPayload.metadata.jobChange.job.jobConfig.queryConfig.query, r\"OPTIONS\\(description='''(.*?)'''\")"
-      }
+    project    = google_dataform_repository.datahub.project
+    region     = google_dataform_repository.datahub.region
+    repository = google_dataform_repository.datahub.name
+
+    name          = "${var.resource_prefix}_dataform_release_full_model"
+    git_commitish = var.dataform_git_repo_main_branch
+    cron_schedule = "55 * * * *"
+    time_zone     = "Europe/Amsterdam"
+
+    code_compilation_config {
+        schema_suffix = var.dataform_suffix_prod
     }
-  }
-
-  notification_channels = [
-    google_monitoring_notification_channel.webhook_dataform[0].id
-  ]
-
-  alert_strategy {
-    notification_rate_limit {
-      period = "300s"
-    }
-  }
-
-  documentation {
-    content = "Failed action in workflow run for $${dataform_repository_id}. $${dataform_workflow_execution_action_id_name}: $${error_message}"
-    mime_type = "text/markdown"
-  }
-
-  depends_on = [ 
-    google_project_service.apis, 
-    google_monitoring_notification_channel.webhook_dataform
-  ]
 }
