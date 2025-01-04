@@ -13,6 +13,11 @@ variable "region" {
     type        = string
 }
 
+variable "dataform_region" {
+    description = "GCP Region"
+    type        = string
+}
+
 variable "dataform_name" {
     description = "Name for Google Dataform (internal) repository"
     type        = string
@@ -50,6 +55,18 @@ variable "dataform_suffix_dev" {
 }
 
 variable "dataform_suffix_prod" {
+    description = "Dataform dataset suffix for production"
+    type        = string
+    default     = "prod"
+}
+
+variable "dataform_create_webhook" {
+    description = "Create a Webhook notification channel and attach it to Dataform related Google Cloud Logs"
+    type        = string
+    default     = 0
+}
+
+variable "dataform_webhook_url" {
     description = "Dataform dataset suffix for production"
     type        = string
     default     = "prod"
