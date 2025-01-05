@@ -4,7 +4,7 @@ resource "google_bigquery_connection" "connection_bigquery_udf" {
     location      = "EU"
     cloud_resource {}
 
-    depends_on  = [ 
+    depends_on  = [
         google_project_service.apis
     ]
 }       

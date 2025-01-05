@@ -1,3 +1,4 @@
+# Create webhook notification channel
 resource "google_monitoring_notification_channel" "webhook_dataform_failed_run" {
   count = var.dataform_create_webhook ? 1 : 0
   
@@ -10,6 +11,7 @@ resource "google_monitoring_notification_channel" "webhook_dataform_failed_run" 
 
 }
 
+# Create alert based on GCP logs and attach notification channel
 resource "google_monitoring_alert_policy" "dataform_failed_run" {
   count = var.dataform_create_webhook ? 1 : 0
   
