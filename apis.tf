@@ -1,5 +1,5 @@
 resource "google_project_service" "apis" {
-  project  = var.project_id
+  project = var.project_id
   for_each = toset(
     [
       "iam.googleapis.com",
