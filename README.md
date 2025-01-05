@@ -51,7 +51,7 @@ module "dataform" {
 
 * 0.4
     * Added Turntwo Impact webhook support, that triggers on Dataform (error) logs. Added two variables: `dataform_create_webhook` (1 / 0) and `dataform_webhook_url`
-    * Added additional settings variable `dataform_region` to overwrite region (due to some legacy projects where Dataform region was different than default region)
+    * Added additional settings variable `dataform_disable_region` to disable setting region on the Dataform resource (due to some legacy projects where region was not set / Terraform then needs to remove/recreate the Dataform repo)
 
 * 0.3.1
     * Added support for Google Cloud Functions / BigQuery Remote UDFs

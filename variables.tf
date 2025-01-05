@@ -13,10 +13,10 @@ variable "region" {
     type        = string
 }
 
-variable "dataform_region" {
-    description = "GCP Region"
-    type        = string
-    default     = ""
+variable "dataform_disable_region" {
+    description = "Disable Dataform region declaration, because otherwise it will try to remove and recreate the Dataform project in GCP"
+    type        = number
+    default     = 0
 }
 
 variable "dataform_name" {
@@ -45,7 +45,7 @@ variable "dataform_git_repo_main_branch" {
 
 variable "dataform_create_release" {
     description = "Create and schedule a release"
-    type        = string
+    type        = number
     default     = 1
 }
 
@@ -63,7 +63,7 @@ variable "dataform_suffix_prod" {
 
 variable "dataform_create_webhook" {
     description = "Create a Webhook notification channel and attach it to Dataform related Google Cloud Logs"
-    type        = string
+    type        = number
     default     = 0
 }
 
@@ -75,7 +75,7 @@ variable "dataform_webhook_url" {
 
 variable "dataform_ga_create_trigger" {
     description = "Create a Dataform Workflow trigger when Google Analytics data is exported (based on cloud logs)"
-    type        = string
+    type        = number
     default     = 0
 }
 
