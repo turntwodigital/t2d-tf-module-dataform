@@ -48,7 +48,7 @@ resource "google_monitoring_alert_policy" "dataform_failed_run" {
   }
 
   documentation {
-    content   = "Failed action in workflow run for $${dataform_repository_id}. $${dataform_workflow_execution_action_id_name}: $${error_message}"
+    content   = "Failed action in workflow run for $${log.extracted_label.dataform_repository_id}. $${log.extracted_label.dataform_workflow_execution_action_id_name}: $${log.extracted_label.error_message}"
     mime_type = "text/markdown"
   }
 
