@@ -17,14 +17,18 @@ functions.http('main', (req, res) => {
     try {
         const body = req.body;
         const text = body.calls[0][0];
-        const endpoint = body.calls[0][1];
+        const textMultiple = body.calls[0][1];
+        const endpoint = body.calls[0][2];
         
         if (!text || !endpoint) {
             res.status(400).json({'replies': ['Missing required properties: text and endpoint!']});
             return;
         }
 
-        const data = { text: text };
+        const data = { 
+            text: text,
+            textMultiple: textMultiple
+        };
 
         (async () => {
             const res = await axios.post(endpoint, data);
